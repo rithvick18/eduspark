@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest run",
+    "backend": "bash -c 'cd backend && source .venv/bin/activate && python main.py'",
+    "start": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"bgMagenta.bold,bgCyan.bold\" \"npm run backend\" \"npm run dev\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",
@@ -19,8 +22,14 @@
     "vite": "^6.0.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "typescript": "^6.0.3"
+    "concurrently": "^9.2.1",
+    "jsdom": "^29.1.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
   }
 }

@@ -1,7 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
+  BarChart3,
+  ChevronDown,
   ChevronRight,
+  ClipboardCheck,
+  FileText,
+  FlaskConical,
+  Gamepad2,
+  Globe,
   LogOut,
   Menu,
   Search,
@@ -15,19 +22,50 @@ import type { NavItem, SearchItem } from "../types";
 import { useToast } from "../contexts/ToastContext";
 import { useAuth } from "../contexts/AuthContext";
 import { Footer } from "./Footer";
+import { FloatingChatbot } from "./FloatingChatbot";
+import { LandingPage } from "../pages/LandingPage";
 import { HomePage } from "../pages/HomePage";
 import { CoursesPage, CourseDetailPage } from "../pages/CoursesPage";
 import { SubjectsPage, SubjectDetailPage } from "../pages/SubjectsPage";
 import { PracticePage } from "../pages/PracticePage";
 import { CommunityPage } from "../pages/CommunityPage";
 import { LoginPage } from "../pages/LoginPage";
+import { GamifiedLearningPage } from "../pages/GamifiedLearningPage";
+import { StudentAnalysisPage } from "../pages/StudentAnalysisPage";
+import { QuestionPaperPage } from "../pages/QuestionPaperPage";
+import { MarkGraderPage } from "../pages/MarkGraderPage";
+import { ExperimentsPage } from "../pages/ExperimentsPage";
+import { MapsPage } from "../pages/MapsPage";
 import { NotFoundPage } from "./Shared";
 
-const navItems: NavItem[] = [
+const topNavItems: NavItem[] = [
+  { label: "Home", to: "/" },
+  { label: "Courses", to: "/courses" },
+  { label: "Subjects", to: "/subjects" },
+  { label: "Community", to: "/community" }
+];
+
+const practiceDropdownItems = [
+  { label: "Practice Quizzes", to: "/practice", icon: Zap },
+  { label: "Gamified Learning", to: "/gamified", icon: Gamepad2 },
+  { label: "Student Analysis", to: "/analysis", icon: BarChart3 },
+  { label: "Question Papers", to: "/papers", icon: FileText },
+  { label: "Mark Grader", to: "/grader", icon: ClipboardCheck },
+  { label: "Experiments", to: "/experiments", icon: FlaskConical },
+  { label: "Maps", to: "/maps", icon: Globe },
+];
+
+const allMobileItems: NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Courses", to: "/courses" },
   { label: "Subjects", to: "/subjects" },
   { label: "Practice", to: "/practice" },
+  { label: "Gamified", to: "/gamified" },
+  { label: "Analysis", to: "/analysis" },
+  { label: "Papers", to: "/papers" },
+  { label: "Grader", to: "/grader" },
+  { label: "Experiments", to: "/experiments" },
+  { label: "Maps", to: "/maps" },
   { label: "Community", to: "/community" }
 ];
 
@@ -73,6 +111,55 @@ function BrandMark({ compact = false }: { compact?: boolean }) {
   );
 }
 
+function PracticeDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const isActive = practiceDropdownItems.some((item) => location.pathname === item.to);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  return (
+    <div className="nav-dropdown-wrap" ref={ref}>
+      <button
+        className={`nav-link nav-dropdown-trigger ${isActive ? "active" : ""}`}
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+      >
+        Practice
+        <ChevronDown size={13} className={`nav-dd-chevron ${open ? "rotated" : ""}`} />
+      </button>
+      {open && (
+        <div className="nav-dropdown-menu">
+          {practiceDropdownItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                className={({ isActive: a }) => `nav-dropdown-item ${a ? "active" : ""}`}
+                to={item.to}
+              >
+                <span className="nav-dd-icon"><Icon size={15} /></span>
+                {item.label}
+              </NavLink>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Navbar({ onSearch }: { onSearch: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -97,7 +184,7 @@ function Navbar({ onSearch }: { onSearch: () => void }) {
       <nav className="nav-shell" aria-label="Primary navigation">
         <BrandMark />
         <div className="desktop-nav">
-          {navItems.map((item) => (
+          {topNavItems.map((item) => (
             <NavLink
               key={item.to}
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
@@ -106,6 +193,7 @@ function Navbar({ onSearch }: { onSearch: () => void }) {
               {item.label}
             </NavLink>
           ))}
+          <PracticeDropdown />
         </div>
         <div className="nav-actions">
           <button className="icon-button" type="button" onClick={onSearch} aria-label="Search">
@@ -150,7 +238,7 @@ function Navbar({ onSearch }: { onSearch: () => void }) {
       </nav>
       {menuOpen && (
         <div className="mobile-menu">
-          {navItems.map((item) => (
+          {allMobileItems.map((item) => (
             <NavLink
               key={item.to}
               className={({ isActive }) => `mobile-link ${isActive ? "active" : ""}`}
@@ -270,6 +358,7 @@ function SearchModal({ open, onClose }: { open: boolean; onClose: () => void }) 
 export function Layout() {
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
+  const isLanding = location.pathname === "/";
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -287,7 +376,7 @@ export function Layout() {
     <>
       <ScrollToTop />
       <GlobalBackground />
-      <Navbar onSearch={() => setSearchOpen(true)} />
+      {!isLanding && <Navbar onSearch={() => setSearchOpen(true)} />}
       <main className="app-main">
         <AnimatePresence mode="wait">
           <motion.div
@@ -298,12 +387,19 @@ export function Layout() {
             transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <Routes location={location}>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="/courses" element={<CoursesPage />} />
               <Route path="/courses/:courseId" element={<CourseDetailPage />} />
               <Route path="/subjects" element={<SubjectsPage />} />
               <Route path="/subjects/:subjectSlug" element={<SubjectDetailPage />} />
               <Route path="/practice" element={<PracticePage />} />
+              <Route path="/gamified" element={<GamifiedLearningPage />} />
+              <Route path="/analysis" element={<StudentAnalysisPage />} />
+              <Route path="/papers" element={<QuestionPaperPage />} />
+              <Route path="/grader" element={<MarkGraderPage />} />
+              <Route path="/experiments" element={<ExperimentsPage />} />
+              <Route path="/maps" element={<MapsPage />} />
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="*" element={<NotFoundPage />} />
@@ -311,8 +407,9 @@ export function Layout() {
           </motion.div>
         </AnimatePresence>
       </main>
-      <Footer />
+      {!isLanding && <Footer />}
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <FloatingChatbot />
     </>
   );
 }

@@ -1,0 +1,142 @@
+/* ── Question Paper + Grader ── */
+.qp-generator-panel,.grader-input-panel{padding:28px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);margin-bottom:40px}
+.qp-generator-header,.grader-input-header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.qp-gen-icon,.grader-icon{display:grid;width:52px;height:52px;place-items:center;border-radius:16px;background:rgba(255,212,0,.1);color:var(--yellow);flex-shrink:0}
+.qp-generator-header h2,.grader-input-header h2{margin:6px 0 0;font-size:1.3rem}
+.qp-generator-header p,.grader-input-header p{margin:4px 0 0;color:var(--soft);font-size:.84rem}
+.qp-form-grid{display:grid;gap:24px}
+.qp-form-section{padding:20px;border:1px solid var(--line);border-radius:14px;background:rgba(5,8,15,.3)}
+.qp-form-section h3{display:flex;align-items:center;gap:8px;margin:0 0 16px;font-size:.92rem;color:var(--yellow)}
+.qp-form-row{display:flex;flex-wrap:wrap;gap:12px}
+.qp-form-row label,.grader-config label{display:grid;gap:6px}
+.qp-form-row label>span,.grader-config label>span{color:var(--muted);font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.qp-form-row select,.qp-form-row input,.grader-config select{min-height:40px;min-width:140px;padding:0 12px;color:#e2e8f0;border:1px solid var(--line-strong);border-radius:12px;background:rgba(5,8,15,.76);outline:none}
+.qp-form-row select:focus,.qp-form-row input:focus{border-color:rgba(255,212,0,.4)}
+.qp-chapter-chips{display:flex;flex-wrap:wrap;gap:8px}
+.qp-chapter-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font-size:.78rem;cursor:pointer;transition:all .2s}
+.qp-chapter-chip.selected{border-color:rgba(255,212,0,.4);color:var(--yellow);background:rgba(255,212,0,.08)}
+.qp-chapter-chip:hover{border-color:rgba(255,255,255,.2)}
+.qp-select-all{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:0;border:0;background:transparent;color:var(--yellow);font-size:.78rem;font-weight:600;cursor:pointer}
+.qp-structure-grid{display:grid;gap:12px;margin-bottom:16px}
+.qp-structure-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--line);border-radius:10px}
+.qp-structure-item span{font-size:.84rem;color:var(--muted)}
+.qp-counter{display:flex;align-items:center;gap:0}
+.qp-counter button{width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:1rem}
+.qp-counter button:first-child{border-radius:8px 0 0 8px}
+.qp-counter button:last-child{border-radius:0 8px 8px 0}
+.qp-counter>span{min-width:36px;height:32px;display:grid;place-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.88rem;font-weight:700;color:var(--yellow)}
+.qp-generate-actions{display:flex;align-items:center;justify-content:space-between;margin-top:24px;gap:16px}
+.qp-summary-chip{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.82rem}
+.qp-paper-view{padding:28px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);margin-bottom:48px}
+.qp-paper-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.qp-paper-title{display:flex;align-items:center;gap:14px}
+.qp-paper-title svg{color:var(--yellow)}
+.qp-paper-title h2{margin:0;font-size:1.15rem}
+.qp-paper-title p{margin:4px 0 0;color:var(--soft);font-size:.78rem}
+.qp-paper-actions{display:flex;gap:10px}
+.qp-section{margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.qp-section-title{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-size:1rem}
+.qp-section-title small{color:var(--soft);font-weight:400;font-size:.78rem}
+.qp-section-badge{padding:4px 10px;border-radius:999px;background:rgba(255,212,0,.1);color:var(--yellow);font-size:.66rem;font-weight:800;letter-spacing:.08em}
+.qp-questions{display:grid;gap:14px}
+.qp-question{display:flex;gap:14px;padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(5,8,15,.3)}
+.qp-q-num{color:var(--yellow);font-weight:800;font-size:.82rem;flex-shrink:0;min-width:36px}
+.qp-q-content{flex:1}
+.qp-q-content>p{margin:0;font-size:.88rem;line-height:1.6}
+.qp-marks{color:var(--soft);font-size:.72rem;font-weight:700;flex-shrink:0}
+.qp-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.qp-option{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.05);font-size:.82rem;color:var(--muted)}
+.qp-option>span{display:grid;width:24px;height:24px;place-items:center;border-radius:6px;background:rgba(255,255,255,.05);font-size:.72rem;font-weight:800;flex-shrink:0}
+.qp-option.correct{border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)}
+.qp-option.correct>span{color:#4ade80;background:rgba(74,222,128,.15)}
+.qp-answer{display:flex;align-items:flex-start;gap:8px;margin-top:12px;padding:10px 14px;border-radius:10px;background:rgba(74,222,128,.06);color:#4ade80;font-size:.82rem;line-height:1.5}
+.qp-filter-row{display:flex;gap:8px}
+.qp-filter-row select{min-height:36px;padding:0 12px;border:1px solid var(--line-strong);border-radius:10px;background:rgba(5,8,15,.7);color:#e2e8f0;outline:none;font-size:.82rem}
+.past-papers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.past-paper-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);transition:transform .3s,border-color .3s;cursor:pointer}
+.past-paper-card:hover{transform:translateY(-3px);border-color:rgba(255,212,0,.2)}
+.ppc-header{display:flex;justify-content:space-between;margin-bottom:10px}
+.ppc-year{color:var(--yellow);font-family:"Oswald",sans-serif;font-size:1.3rem}
+.ppc-board{padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase}
+.past-paper-card h3{margin:0 0 10px;font-size:.92rem}
+.ppc-chapters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ppc-chip{padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.04);font-size:.68rem;color:var(--muted)}
+.ppc-chip.more{color:var(--yellow)}
+.ppc-footer{display:flex;justify-content:space-between;color:var(--soft);font-size:.78rem}
+.ppc-footer svg{color:var(--yellow)}
+.qp-no-chapters{color:var(--soft);font-size:.82rem}
+.qp-hero-visual,.grader-hero-visual{position:relative;display:grid;place-items:center;min-height:280px}
+.qp-paper-stack{position:relative;width:180px;height:220px}
+.qp-paper-sheet{position:absolute;width:100%;border:1px solid var(--line);border-radius:14px;background:var(--surface-2);padding:16px}
+.qp-sheet-1{inset:0;z-index:3}
+.qp-sheet-2{top:8px;left:8px;right:-8px;bottom:-8px;z-index:2;opacity:.6}
+.qp-sheet-3{top:16px;left:16px;right:-16px;bottom:-16px;z-index:1;opacity:.3}
+.qp-sheet-header{display:flex;align-items:center;gap:8px;color:var(--yellow);font-size:.78rem;font-weight:700;margin-bottom:14px}
+.qp-sheet-lines{display:grid;gap:8px}
+.qp-sheet-lines span{height:6px;border-radius:4px;background:rgba(255,255,255,.06)}
+.qp-sheet-lines span:last-child{width:60%}
+.qp-sheet-stamp{display:flex;align-items:center;gap:6px;margin-top:14px;color:var(--yellow);font-size:.66rem;font-weight:700}
+/* ── Grader ── */
+.grader-config{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;align-items:flex-end}
+.grader-qa-list{display:grid;gap:16px}
+.grader-qa-item{padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(5,8,15,.3)}
+.grader-qa-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.grader-qa-num{color:var(--yellow);font-weight:800;font-size:.88rem}
+.grader-marks-label{display:flex;align-items:center;gap:6px;color:var(--soft);font-size:.76rem}
+.grader-marks-label input{width:50px;min-height:30px;padding:0 8px;border:1px solid var(--line);border-radius:8px;background:rgba(5,8,15,.7);color:#fff;text-align:center}
+.grader-q-input{width:100%;min-height:38px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.03);color:#fff;outline:none;margin-bottom:8px;font-size:.84rem}
+.grader-a-input{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.03);color:#fff;outline:none;resize:vertical;font-size:.84rem;line-height:1.6;font-family:inherit}
+.grader-q-input:focus,.grader-a-input:focus{border-color:rgba(255,212,0,.4)}
+.grader-submit-row{display:flex;align-items:center;justify-content:space-between;margin-top:24px;gap:16px}
+.grader-score-overview{display:flex;align-items:center;gap:32px;padding:28px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);margin-bottom:28px}
+.grader-score-ring-container{position:relative;width:120px;height:120px;flex-shrink:0}
+.grader-score-ring{width:100%;height:100%}
+.gsr-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:6}
+.gsr-fill{fill:none;stroke-width:6;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dasharray .8s var(--easing)}
+.gsr-text{position:absolute;inset:0;display:grid;place-items:center;align-content:center;text-align:center}
+.gsr-percent{display:block;font-family:"Oswald",sans-serif;font-size:1.8rem;line-height:1}
+.gsr-grade{display:block;color:var(--yellow);font-weight:800;font-size:.78rem;margin-top:2px}
+.grader-score-details h2{margin:0;font-family:"Oswald",sans-serif;font-size:1.8rem}
+.grader-score-details p{margin:8px 0 0;color:var(--muted);font-size:.88rem;line-height:1.6}
+.grader-score-stats{display:flex;gap:16px;margin-top:14px}
+.grader-score-stats>div{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--muted)}
+.grader-answers-panel{padding:24px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);margin-bottom:28px}
+.grader-answers-list{display:grid;gap:8px}
+.grader-answer-item{border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.grader-answer-item.correct{border-left:3px solid #4ade80}
+.grader-answer-item.partial{border-left:3px solid #fbbf24}
+.grader-answer-item.incorrect{border-left:3px solid #f87171}
+.ga-header{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.ga-status-dot{width:8px;height:8px;border-radius:999px;flex-shrink:0}
+.ga-q-num{font-weight:800;font-size:.82rem;color:var(--yellow)}
+.ga-question{flex:1;font-size:.84rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ga-score{font-weight:700;font-size:.88rem}
+.ga-chevron{color:var(--soft);transition:transform .25s;flex-shrink:0}
+.ga-chevron.rotated{transform:rotate(90deg)}
+.ga-details{padding:0 16px 16px;border-top:1px solid var(--line)}
+.ga-student-answer,.ga-feedback{margin-top:12px}
+.ga-student-answer h4,.ga-feedback h4{margin:0 0 6px;font-size:.78rem;color:var(--yellow)}
+.ga-student-answer p,.ga-feedback p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.6}
+.grader-insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grader-insight-card{padding:20px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.grader-insight-card h3{display:flex;align-items:center;gap:8px;margin:0 0 12px;font-size:.92rem}
+.grader-insight-card.strengths h3{color:#4ade80}
+.grader-insight-card.improvements h3{color:var(--yellow)}
+.grader-insight-card ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.grader-insight-card li{color:var(--muted);font-size:.82rem;padding-left:16px;position:relative}
+.grader-insight-card li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:999px}
+.grader-insight-card.strengths li::before{background:#4ade80}
+.grader-insight-card.improvements li::before{background:var(--yellow)}
+.grader-hero-card{padding:24px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);text-align:center;width:200px}
+.ghc-header{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--yellow);margin-bottom:16px;font-weight:700}
+.ghc-score-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ghc-bar-track{flex:1;height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.ghc-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--yellow),#4ade80)}
+.ghc-results-mini{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
+.ghc-dot{width:12px;height:12px;border-radius:999px}
+.ghc-dot.correct{background:#4ade80}
+.ghc-dot.partial{background:#fbbf24}
+.ghc-dot.incorrect{background:#f87171}
+.ghc-grade{font-family:"Oswald",sans-serif;font-size:2.4rem;color:var(--yellow)}
+.qp-form-row.compact{margin-top:16px}
+.qp-past-section{margin-top:48px}

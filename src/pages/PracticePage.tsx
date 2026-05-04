@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { Clock, Flame, Lightbulb } from "lucide-react";
+import { Clock, Flame, Lightbulb, Loader2, RefreshCw } from "lucide-react";
 import { badges, quizQuestions } from "../data";
+import type { QuizQuestion } from "../types";
 import { useToast } from "../contexts/ToastContext";
 import { Reveal } from "../components/Reveal";
 import { SectionHeading, PageHero } from "../components/Shared";
+import { AskTutor } from "../components/AskTutor";
+import { contentAPI, type GeneratedPaper } from "../services/api";
+
+const boardOptions = ["CBSE", "ICSE", "State"];
+const subjectOptions = ["Science", "Maths", "Social Science", "English"];
+const chapterOptions = ["Life Processes", "Light", "Quadratic Equations", "Nationalism in India"];
 
 export function StreakCard() {
   return (
@@ -99,12 +106,12 @@ function LightbulbIcon() {
   return <span className="hint-dot" aria-hidden="true" />;
 }
 
-export function QuizPanel({ compact = false }: { compact?: boolean }) {
+export function QuizPanel({ compact = false, questions = quizQuestions }: { compact?: boolean; questions?: QuizQuestion[] }) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [seconds, setSeconds] = useState(150);
   const showToast = useToast();
-  const question = quizQuestions[index];
+  const question = questions[index] ?? quizQuestions[0];
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -112,6 +119,11 @@ export function QuizPanel({ compact = false }: { compact?: boolean }) {
     }, 1000);
     return () => window.clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    setIndex(0);
+    setSelected(null);
+  }, [questions]);
 
   const minutes = Math.floor(seconds / 60);
   const time = `${minutes}:${String(seconds % 60).padStart(2, "0")}`;
@@ -127,7 +139,7 @@ export function QuizPanel({ compact = false }: { compact?: boolean }) {
 
   const nextQuestion = () => {
     setSelected(null);
-    setIndex((value) => (value + 1) % quizQuestions.length);
+    setIndex((value) => (value + 1) % questions.length);
     showToast("Next practice prompt loaded.");
   };
 
@@ -145,7 +157,7 @@ export function QuizPanel({ compact = false }: { compact?: boolean }) {
           </div>
         </div>
         <div className="question-progress" aria-hidden="true">
-          {quizQuestions.map((_, stepIndex) => (
+          {questions.map((_, stepIndex) => (
             <span
               className={stepIndex < index ? "complete" : stepIndex === index ? "current" : ""}
               key={stepIndex}
@@ -153,7 +165,7 @@ export function QuizPanel({ compact = false }: { compact?: boolean }) {
           ))}
         </div>
         <div className="question-copy">
-          <p>Question {index + 1} of {quizQuestions.length}</p>
+          <p>Question {index + 1} of {questions.length}</p>
           <h3>{question.prompt}</h3>
         </div>
         <div className="quiz-options">
@@ -207,6 +219,29 @@ function PracticeVisual() {
 }
 
 export function PracticePage() {
+  const [board, setBoard] = useState("CBSE");
+  const [subject, setSubject] = useState("Science");
+  const [chapter, setChapter] = useState("Life Processes");
+  const [difficulty, setDifficulty] = useState("medium");
+  const [generatedQuestions, setGeneratedQuestions] = useState<QuizQuestion[] | null>(null);
+  const [loadingPaper, setLoadingPaper] = useState(false);
+  const showToast = useToast();
+  const activeQuestions = generatedQuestions && generatedQuestions.length > 0 ? generatedQuestions : quizQuestions;
+
+  const generatePaper = async () => {
+    setLoadingPaper(true);
+    try {
+      const paper = await contentAPI.generatePaper(board, subject, chapter, difficulty);
+      const nextQuestions = paperToQuizQuestions(paper, chapter);
+      setGeneratedQuestions(nextQuestions);
+      showToast(paper.cached ? "Loaded cached AI practice paper." : "AI practice paper generated.");
+    } catch {
+      showToast("Start the FastAPI backend to generate a fresh paper.");
+    } finally {
+      setLoadingPaper(false);
+    }
+  };
+
   return (
     <section className="page-section top-page">
       <div className="content-shell">
@@ -216,15 +251,79 @@ export function PracticePage() {
           copy="Use timed quizzes, hints, progress rings, streaks, and badges to keep each study session concrete and rewarding."
           visual={<PracticeVisual />}
         />
+        <Reveal>
+          <section className="practice-generator">
+            <div>
+              <span className="section-kicker">AI Paper Generator</span>
+              <h2>Build Practice From Your Syllabus</h2>
+            </div>
+            <div className="curator-controls">
+              <label>
+                <span>Board</span>
+                <select value={board} onChange={(event) => setBoard(event.target.value)}>
+                  {boardOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Subject</span>
+                <select value={subject} onChange={(event) => setSubject(event.target.value)}>
+                  {subjectOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Chapter</span>
+                <select value={chapter} onChange={(event) => setChapter(event.target.value)}>
+                  {chapterOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Difficulty</span>
+                <select value={difficulty} onChange={(event) => setDifficulty(event.target.value)}>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
+              <button className="pill-button small" type="button" onClick={generatePaper} disabled={loadingPaper}>
+                {loadingPaper ? <Loader2 className="spin" size={15} /> : <RefreshCw size={15} />}
+                Generate
+              </button>
+            </div>
+          </section>
+        </Reveal>
         <div className="practice-layout expanded">
           <div className="practice-sidebar">
             <StreakCard />
             <LevelCard />
             <BadgesCard />
+            <AskTutor board={board} subject={subject} chapter={chapter} />
           </div>
-          <QuizPanel />
+          <QuizPanel questions={activeQuestions} />
         </div>
       </div>
     </section>
   );
+}
+
+function paperToQuizQuestions(paper: GeneratedPaper, chapter: string): QuizQuestion[] {
+  const questions = paper.mcqs.map((item, index) => {
+    const correct = item.correct?.trim().toUpperCase() || "A";
+    const correctIndex = Math.max(0, Math.min(3, correct.charCodeAt(0) - "A".charCodeAt(0)));
+
+    return {
+      topic: chapter,
+      prompt: item.q || `Practice question ${index + 1}`,
+      options: item.options?.length ? item.options : ["A", "B", "C", "D"],
+      correctIndex,
+      hint: "Review the chapter summary and eliminate options that do not match the definition."
+    };
+  });
+
+  return questions.length > 0 ? questions : quizQuestions;
 }

@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+google-generativeai
+mistralai
+youtube-search-python
+requests
+beautifulsoup4
+python-dotenv
+streamlit

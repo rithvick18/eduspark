@@ -1,5 +1,5 @@
 import { useRef, type ElementType, type ReactNode } from "react";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, type Variants } from "framer-motion";
 
 interface RevealProps {
   children: ReactNode;
@@ -18,7 +18,7 @@ const directionOffset = {
 
 export function Reveal({ children, delay = 0, className = "", as: Component = "div", direction = "up" }: RevealProps) {
   const offset = directionOffset[direction];
-  const MotionComponent = motion(Component as string as keyof typeof motion);
+  const MotionComponent = typeof Component === "string" ? (motion as any)[Component] : motion(Component as any);
 
   const variants: Variants = {
     hidden: { opacity: 0, x: offset.x, y: offset.y },
@@ -28,19 +28,22 @@ export function Reveal({ children, delay = 0, className = "", as: Component = "d
       y: 0,
       transition: {
         duration: 0.85,
-        delay,
+        delay: delay / 1000,
         ease: [0.25, 0.1, 0.25, 1],
       },
     },
   };
 
+  const ref = useRef<any>(null);
+  const isInView = useInView(ref, { once: true, amount: 0 });
+
   return (
     <MotionComponent
+      ref={ref}
       className={className}
       variants={variants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      animate={isInView ? "visible" : "hidden"}
     >
       {children}
     </MotionComponent>
@@ -75,8 +78,12 @@ interface StaggerContainerProps {
 }
 
 export function StaggerContainer({ children, className = "", staggerDelay = 0.08 }: StaggerContainerProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0 });
+
   return (
     <motion.div
+      ref={ref}
       className={className}
       variants={{
         visible: {
@@ -86,8 +93,7 @@ export function StaggerContainer({ children, className = "", staggerDelay = 0.08
         },
       }}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      animate={isInView ? "visible" : "hidden"}
     >
       {children}
     </motion.div>

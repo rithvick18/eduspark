@@ -1,0 +1,105 @@
+/* ── Experiments ── */
+.experiments-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.experiment-card{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.025);overflow:hidden;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s}
+.experiment-card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--accent),transparent 50%);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.exp-card-visual{position:relative;height:120px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent),transparent 92%);color:var(--accent)}
+.exp-card-glow{position:absolute;width:80px;height:80px;border-radius:999px;background:var(--accent);opacity:.12;filter:blur(30px)}
+.exp-card-body{padding:18px}
+.exp-card-badges{display:flex;gap:6px;margin-bottom:8px}
+.exp-badge{padding:3px 8px;border-radius:999px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.exp-badge.subject{background:rgba(255,212,0,.1);color:var(--yellow)}
+.exp-badge.difficulty{background:rgba(255,255,255,.05);color:var(--muted)}
+.experiment-card h3{margin:0 0 6px;font-size:.92rem}
+.experiment-card p{margin:0;color:var(--soft);font-size:.78rem;line-height:1.5}
+.exp-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.exp-duration{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:.72rem}
+.exp-card-action{display:flex;align-items:center;gap:4px;color:var(--accent);font-size:.78rem;font-weight:600}
+.experiment-viewer{padding:28px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.025);margin-bottom:24px}
+.ev-header{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.ev-subject-badge{padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:700;color:var(--dark)}
+.ev-header h2{margin:0;font-size:1.2rem}
+.ev-header p{margin:4px 0 0;color:var(--soft);font-size:.82rem}
+.exp-viz{padding:24px;border:1px solid var(--line);border-radius:16px;background:rgba(5,8,15,.4)}
+.exp-viz-canvas{position:relative;min-height:250px;overflow:hidden;display:grid;place-items:center}
+.exp-controls{display:flex;gap:10px;margin-top:20px;justify-content:center}
+.exp-viz-steps{display:grid;gap:8px;margin-top:20px}
+.exp-step{display:flex;align-items:center;gap:10px;opacity:.4;transition:opacity .4s}
+.exp-step.active{opacity:1}
+.exp-step.current{opacity:1}
+.exp-step-dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.2);flex-shrink:0;transition:background .3s}
+.exp-step.active .exp-step-dot{background:var(--yellow)}
+.exp-step-label{font-size:.82rem;color:var(--muted)}
+.exp-step.active .exp-step-label{color:#fff}
+.exp-slider,.exp-slider-row{margin-top:20px}
+.exp-slider label,.exp-slider-row label{display:grid;gap:6px}
+.exp-slider-row{display:flex;gap:20px}
+.exp-slider-row label{flex:1}
+.exp-slider span,.exp-slider-row span{font-size:.78rem;color:var(--muted)}
+.exp-slider input[type=range],.exp-slider-row input[type=range]{width:100%;accent-color:var(--yellow)}
+/* Photosynthesis */
+.photosynthesis-sun{position:absolute;top:12px;left:50%;transform:translateX(-50%);color:#fbbf24;z-index:2}
+.photosynthesis-sun.active{animation:pulse 1s ease infinite}
+.sun-rays span{position:absolute;width:2px;height:16px;background:#fbbf24;top:50%;left:50%;transform-origin:center center;opacity:.4}
+.photosynthesis-leaf{position:relative;width:120px;height:80px}
+.leaf-body{width:100%;height:100%;background:linear-gradient(135deg,#22c55e,#166534);border-radius:60% 20% 60% 20%;position:relative;overflow:hidden}
+.leaf-veins span{position:absolute;width:1px;height:60%;background:rgba(255,255,255,.2);top:20%;left:50%;transform-origin:top}
+.leaf-veins span:nth-child(2){transform:rotate(-25deg)}
+.leaf-veins span:nth-child(3){transform:rotate(25deg)}
+.chloroplasts{display:flex;flex-wrap:wrap;gap:6px;padding:14px;justify-content:center}
+.chloroplast{width:10px;height:10px;border-radius:999px;background:rgba(74,222,128,.4);transition:all .5s}
+.chloroplast.active{background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.6);animation:pulse .8s ease infinite}
+.photosynthesis-particles{position:absolute;inset:0}
+.particle{position:absolute;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;font-size:.62rem;font-weight:700;animation:particleFloat 2s ease-in-out infinite}
+.water-particle{bottom:30%;left:10%;background:rgba(96,165,250,.2);color:#60a5fa}
+.co2-particle{top:30%;right:10%;background:rgba(148,163,184,.2);color:#94a3b8}
+.glucose-particle{bottom:10%;right:30%;background:rgba(74,222,128,.2);color:#4ade80;animation-delay:.5s}
+.o2-particle{top:10%;left:30%;background:rgba(74,222,128,.15);color:#4ade80;font-weight:800;animation-delay:1s}
+@keyframes particleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* Prism */
+.prism-canvas{position:relative;min-height:200px;display:grid;place-items:center}
+.prism-incoming-light{position:absolute;left:0;top:50%;width:40%;height:3px;background:linear-gradient(90deg,transparent,#fff);transform:translateY(-50%)}
+.prism-shape{width:80px;height:80px;position:relative;z-index:2}
+.prism-face{position:absolute;inset:0;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.05);clip-path:polygon(50% 0%,0% 100%,100% 100%)}
+.prism-spectrum{position:absolute;right:10%;top:30%;bottom:30%;width:30%;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.spectrum-ray{height:3px;border-radius:999px;transform-origin:left center;animation:rayGlow 1.5s ease-in-out infinite alternate}
+@keyframes rayGlow{from{opacity:.5}to{opacity:.9}}
+.spectrum-labels{position:absolute;right:4%;top:20%;bottom:20%;display:flex;flex-direction:column;justify-content:space-between;font-size:.58rem;font-weight:800;text-align:right}
+/* Circuit */
+.circuit-canvas{position:relative;min-height:180px;display:grid;place-items:center}
+.circuit-battery,.circuit-resistor,.circuit-bulb{position:absolute;text-align:center;font-size:.72rem;color:var(--muted)}
+.circuit-battery{top:10%;left:50%;transform:translateX(-50%)}
+.circuit-battery svg{color:var(--yellow)}
+.circuit-resistor{bottom:10%;left:15%}
+.resistor-body{display:flex;gap:3px;margin-bottom:4px}
+.resistor-band{width:8px;height:20px;border-radius:2px}
+.circuit-bulb{bottom:10%;right:15%;position:relative}
+.circuit-bulb svg{color:rgba(255,212,0,calc(var(--brightness)/ 100))}
+.bulb-glow{position:absolute;inset:-20px;border-radius:999px;background:rgba(255,212,0,calc(var(--brightness)/ 200));filter:blur(15px);pointer-events:none}
+.current-flow{position:absolute;inset:0;pointer-events:none}
+.current-arrow{position:absolute;width:6px;height:6px;border-radius:999px;background:var(--yellow);animation:flowDot 2s linear infinite}
+.current-arrow:nth-child(2){animation-delay:.7s}
+.current-arrow:nth-child(3){animation-delay:1.4s}
+@keyframes flowDot{0%{top:20%;left:50%;opacity:0}25%{top:20%;left:80%;opacity:1}50%{top:80%;left:80%}75%{top:80%;left:20%}100%{top:20%;left:50%;opacity:0}}
+.circuit-readout{display:flex;gap:16px;margin-top:16px;justify-content:center}
+.readout-item{padding:10px 16px;border:1px solid var(--line);border-radius:10px;text-align:center}
+.readout-item.highlight{border-color:rgba(255,212,0,.3);background:rgba(255,212,0,.05)}
+.readout-label{display:block;font-size:.62rem;color:var(--soft);text-transform:uppercase;margin-bottom:4px}
+.readout-value{font-family:"Oswald",sans-serif;font-size:1.2rem;color:var(--yellow)}
+/* Placeholder viz */
+.exp-placeholder-viz{position:relative;text-align:center;padding:40px}
+.exp-placeholder-icon{display:grid;width:80px;height:80px;place-items:center;margin:0 auto 16px;border-radius:20px;background:color-mix(in srgb,var(--accent),transparent 85%);color:var(--accent)}
+.exp-placeholder-viz h3{margin:0;font-size:1.1rem}
+.exp-placeholder-viz p{margin:6px 0 0;color:var(--soft)}
+.exp-floating-particle{position:absolute;width:6px;height:6px;border-radius:999px;background:var(--accent);opacity:.3;animation:floatUp 3s ease-in-out infinite}
+@keyframes floatUp{0%{transform:translateY(0);opacity:.3}50%{transform:translateY(-40px);opacity:.6}100%{transform:translateY(-80px);opacity:0}}
+/* Hero */
+.experiments-hero-visual{position:relative;display:grid;place-items:center;min-height:280px}
+.ehv-flask{position:relative;color:#60a5fa;z-index:1}
+.ehv-bubbles{position:absolute;bottom:20%;left:50%;transform:translateX(-50%)}
+.ehv-bubble{position:absolute;width:8px;height:8px;border-radius:999px;background:rgba(96,165,250,.4);animation:bubbleUp 2s ease-in-out infinite}
+@keyframes bubbleUp{0%{transform:translateY(0) scale(1);opacity:.6}100%{transform:translateY(-60px) scale(.4);opacity:0}}
+.ehv-atoms{position:absolute;inset:0}
+.ehv-atom{position:absolute;animation:float 3s ease-in-out infinite}
+.ehv-atom-1{top:15%;right:20%;color:#c084fc;animation-delay:.5s}
+.ehv-atom-2{bottom:25%;left:15%;color:#4ade80;animation-delay:1s}
+.ehv-atom-3{top:50%;right:10%;color:var(--yellow);animation-delay:1.5s}

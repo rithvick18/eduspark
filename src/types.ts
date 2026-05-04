@@ -116,7 +116,14 @@ export interface AuthContextValue {
   session: Session | null;
   loading: boolean;
   isConfigured: boolean;
-  signUpWithEmail: (creds: { name: string; email: string; password: string }) => Promise<{ error: Error | null; data?: { session: Session | null } }>;
+  signUpWithEmail: (creds: {
+    name: string;
+    email: string;
+    password: string;
+    grade: string;
+    school: string;
+    learningGoal: string;
+  }) => Promise<{ error: Error | null; data?: { session: Session | null } }>;
   signInWithEmail: (creds: { email: string; password: string }) => Promise<{ error: Error | null; data?: { session: Session | null } }>;
   signInWithGoogle: () => Promise<{ error: Error | null }>;
   signOut: () => Promise<{ error: Error | null }>;

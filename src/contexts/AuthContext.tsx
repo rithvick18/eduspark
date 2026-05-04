@@ -46,7 +46,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [showToast]);
 
-  const signUpWithEmail = async ({ name, email, password }: { name: string; email: string; password: string }) => {
+  const signUpWithEmail = async ({
+    name,
+    email,
+    password,
+    grade,
+    school,
+    learningGoal
+  }: {
+    name: string;
+    email: string;
+    password: string;
+    grade: string;
+    school: string;
+    learningGoal: string;
+  }) => {
     if (!isSupabaseConfigured) {
       return { error: new Error("Add Supabase environment variables to enable auth.") };
     }
@@ -55,7 +69,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       password,
       options: {
-        data: { full_name: name },
+        data: {
+          full_name: name,
+          grade,
+          school,
+          learning_goal: learningGoal
+        },
         emailRedirectTo: `${window.location.origin}/login`
       }
     });
